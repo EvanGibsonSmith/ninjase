@@ -2,6 +2,7 @@ import React from 'react';
 import { config_4x4, config_5x5, config_6x6 } from './model/Model.js'
 import { redrawCanvas} from './boundary/Boundary.js'
 import { Model } from './model/Model.js'
+import { removeGroup, resetPuzzle } from './controller/Controller.js'
 
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
@@ -17,7 +18,7 @@ const leftbutton = {
 }
 
 function App() {
-  const [model, setModel] = React.useState(new Model(config_5x5));
+  const [model, setModel] = React.useState(new Model(config_6x6));
   const [redraw, forceRedraw] = React.useState(0);       // used to conveniently request redraw after model change
   const canvasRef = React.useRef(null);   // need to be able to refer to Canvas
 
@@ -32,11 +33,11 @@ function App() {
       <canvas tabIndex="1"  
         className="App-canvas"
         ref={canvasRef}
-        width  = "800" // TODO make these not hardcoded later? (layout.canvas.widdth and layour.canvas.height)
+        width  = "800" // TODO make these not hardcoded later? (layout.canvas.width and layour.canvas.height)
         height = "800" />
-      
-      <button style={upbutton}>^</button>
-      <button style={leftbutton}>&lt;</button>
+
+      <button style={upbutton} onClick={(e)=>resetPuzzle(model)}>^</button> 
+      <button style={leftbutton} onClick={(e)=>removeGroup(model, "red")}>&lt;</button>
     </main>
   );
 }

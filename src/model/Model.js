@@ -97,6 +97,11 @@ export class Cell {
 
 export class Puzzle {
     constructor(config) {
+        this.initialize(config)
+    }
+
+    initialize(config) {
+        this.config = config
         this.numColumns = parseInt(config.numColumns)
         this.numRows = parseInt(config.numRows)
 
@@ -111,17 +116,29 @@ export class Puzzle {
         // getting into form that is easier to interate through and get color
         init.forEach(element => {
             let numericalColumn = element.column.toLowerCase().charCodeAt(0) - 96  // TODO this seems jank Gives 
-            locationToColor[[element.row, numericalColumn]] = element.color
+            locationToColor[[element.row-1, numericalColumn-1]] = element.color // The minus one makes top left 0,0 to line up with array
         });
+        
+        // get ninjase cells TODO make this work later but for not putting in locationToColor?
+        const ninjaseCells = new Set()
+        const ninjaseColumn = config.ninjaColumn.toLowerCase().charCodeAt(0) - 96
+        // Note: Does not check if ninjase location is valid TODO should I check this? proabably not right.
+        ninjaseCells.add([parseInt(config.ninjaRow), parseInt(ninjaseColumn)])
+        ninjaseCells.add([parseInt(config.ninjaRow)+1, parseInt(ninjaseColumn)])
+        ninjaseCells.add([parseInt(config.ninjaRow), parseInt(ninjaseColumn)+1])
+        ninjaseCells.add([parseInt(config.ninjaRow)+1, parseInt(ninjaseColumn)+1])
+        //console.log(ninjaseCells.values)
+
+        // add ninjase, represented with the TODON
 
         for (let r = 0; r < this.numRows; r++) { 
             this.cells[r] = []; 
-            for (let c = 0; c < this.numColumns; c++) {
+            for (let c = 0; c < this.numColumns; c++) { 
                 if ([r, c] in locationToColor){ 
                     this.cells[r][c] = new Cell(r, c, locationToColor[[r, c]])
                 }
                 else { // if it is not it dictionary it is a white square
-                    this.cells[r][c] = new Cell(r, c, "white") // TODO fix this 
+                    this.cells[r][c] = new Cell(r, c, "grey") // TODO fix this 
                 }
             }
         }
