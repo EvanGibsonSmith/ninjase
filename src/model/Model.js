@@ -86,12 +86,20 @@ export const config_6x6 = {
 ]
 }
 
+
 // not using now..
 export class Cell {
     constructor(r, c, color) {
         this.row = r
         this.column = c
         this.color = color
+    }
+}
+
+export class NinjaSe {
+    constructor(r, c) {
+        this.row = r
+        this.column = c
     }
 }
 
@@ -118,22 +126,10 @@ export class Puzzle {
             let numericalColumn = element.column.toLowerCase().charCodeAt(0) - 96  // TODO this seems jank Gives 
             locationToColor[[element.row-1, numericalColumn-1]] = element.color // The minus one makes top left 0,0 to line up with array
         });
-        
-        // get ninjase cells TODO make this work later but for not putting in locationToColor?
-        const ninjaseCells = new Set()
-        const ninjaseColumn = config.ninjaColumn.toLowerCase().charCodeAt(0) - 96
-        // Note: Does not check if ninjase location is valid TODO should I check this? proabably not right.
-        ninjaseCells.add([parseInt(config.ninjaRow), parseInt(ninjaseColumn)])
-        ninjaseCells.add([parseInt(config.ninjaRow)+1, parseInt(ninjaseColumn)])
-        ninjaseCells.add([parseInt(config.ninjaRow), parseInt(ninjaseColumn)+1])
-        ninjaseCells.add([parseInt(config.ninjaRow)+1, parseInt(ninjaseColumn)+1])
-        //console.log(ninjaseCells.values)
 
-        // add ninjase, represented with the TODON
-
-        for (let r = 0; r < this.numRows; r++) { 
+        for (let r = 0; r < this.numRows; r++) { // TODO put no cells where ninjase is?
             this.cells[r] = []; 
-            for (let c = 0; c < this.numColumns; c++) { 
+            for (let c = 0; c < this.numColumns; c++) {
                 if ([r, c] in locationToColor){ 
                     this.cells[r][c] = new Cell(r, c, locationToColor[[r, c]])
                 }
@@ -142,13 +138,18 @@ export class Puzzle {
                 }
             }
         }
+
+        // TODO put ninjase on top of the cells? Odd. ok. Cells where ninjase is? Accpetable? Maybe.
+        const ninjaseColumn = config.ninjaColumn.toLowerCase().charCodeAt(0) - 96
+        this.ninjase = new NinjaSe(this.config.ninjaRow-1, ninjaseColumn-1) // -1 to get into zero indexed form (as done in locationToColor)
     }
 }
 
 // Model knows the level (you need 3). Knows the Puzzle
 export class Model {
-    constructor(config) { // TODO use a initialize function and put that within constructor?
-        this.puzzle = new Puzzle(config) // TODO puzzle isn't passed any information about the colors on the board?
+    constructor(puzzle) { // TODO use a initialize function and put that within constructor?
+        this.puzzle = puzzle // TODO makes more sense for puzzle to be an object passed in constructor that config passed?
         this.numMoves = 0
+        this.victory = false
     }
 }
