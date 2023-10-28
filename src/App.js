@@ -2,7 +2,7 @@ import React from 'react';
 import { config_4x4, config_5x5, config_6x6 } from './model/Model.js'
 import { redrawCanvas} from './boundary/Boundary.js'
 import { Model, Puzzle } from './model/Model.js'
-import { removeGroup, resetPuzzle } from './controller/Controller.js'
+import { moveNinjase, removeAllGroups, resetPuzzle } from './controller/Controller.js'
 
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
@@ -13,18 +13,53 @@ const upbutton = {
 
 const leftbutton = {
   position: "absolute",
+  left: 800,
+  top: 120,
+}
+
+const rightbutton = {
+  position: "absolute",
+  left: 950,
+  top: 80,
+}
+
+const downbutton = {
+  position: "absolute",
   left: 850,
   top: 120,
 }
 
-const groupremovedropdown = {
+const groupremovebutton= {
   position: "absolute",
-  
+  left: 1000,
+  top: 10,
+}
+
+const resetpuzzlebutton= {
+  position: "absolute",
+  left: 900,
+  top: 10,
+}
+
+const movecount= {
+  position: "absolute",
+  left: 1000,
+  top: 10,
+}
+
+const victoryMessage= {
+  id: "victoryMessage",
+  position: "absolute",
+  left: 200,
+  top: 200,
 }
 
 
+
+
+
 function App() {
-  const [model, setModel] = React.useState(new Model(new Puzzle(config_6x6))); // TODO is this allowed for the assignment?
+  const [model, setModel] = React.useState(new Model(new Puzzle(config_5x5))); // TODO is this allowed for the assignment?
   const [redraw, forceRedraw] = React.useState(0);       // used to conveniently request redraw after model change
   const canvasRef = React.useRef(null);   // need to be able to refer to Canvas
 
@@ -35,17 +70,36 @@ function App() {
   }, [model, redraw])   // arguments that determine when to refresh
 
   // TODO these feel silly. Maybe some higher order later?
-  const handleUpClick = e => {
-    setModel(resetPuzzle(model))
+  const handleResetClick = e => {
+    resetPuzzle(model)
+    forceRedraw(redraw+1)
   }
   
+  const handleUpClick = e => {
+    moveNinjase(model, 0)
+    forceRedraw(redraw+1) // TODO does nothing
+  }
+
   const handleLeftClick = e => {
-    setModel(model) // TODO does nothing :/
+    moveNinjase(model, 1)
+    forceRedraw(redraw+1) // TODO does nothing
+  }
+
+  const handleDownClick = e => {
+    moveNinjase(model, 2)
+    forceRedraw(redraw+1) // TODO does nothing
+  }
+
+  const handleRightClick = e => {
+    moveNinjase(model, 3)
+    forceRedraw(redraw+1) // TODO does nothing
   }
 
   const handleGroupRemove = e => {
-    setModel(removeGroup(model, "red")) // FIX THE COLORS BEING PASSED
+    removeAllGroups(model) // FIX THE COLORS BEING PASSED, make it remove all groups for now?
+    forceRedraw(redraw+1)
   }
+
 
   return (
     <main>
@@ -55,9 +109,14 @@ function App() {
         width  = "800" // TODO make these not hardcoded later? (layout.canvas.width and layour.canvas.height)
         height = "800" />
 
-      <button style={upbutton} onClick={handleUpClick}>^</button> 
-      <button style={leftbutton} onClick={handleLeftClick}>&lt;</button>
-      <button style={groupremovedropdown} onClick={handleGroupRemove}>&lt;</button>
+      <button style={upbutton} onClick={handleUpClick}>up</button> 
+      <button style={leftbutton} onClick={handleLeftClick}>left</button>
+      <button style={rightbutton} onClick={handleDownClick}>down</button>
+      <button style={downbutton} onClick={handleRightClick}>right</button>
+      <button style={groupremovebutton} onClick={handleGroupRemove}>Remove groups</button>
+      <button style={resetpuzzlebutton} onClick={handleResetClick}>Reset Puzzle</button>
+      <p style={victoryMessage} id='victoryMessage' disabled>VICTORY!</p>
+      <p style={movecount}>Move Count: {model.numMoves}</p>
     </main>
   );
 }

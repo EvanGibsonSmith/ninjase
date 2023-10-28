@@ -110,6 +110,7 @@ export class Puzzle {
 
     initialize(config) {
         this.config = config
+        this.name = config.name
         this.numColumns = parseInt(config.numColumns)
         this.numRows = parseInt(config.numRows)
 
@@ -127,14 +128,16 @@ export class Puzzle {
             locationToColor[[element.row-1, numericalColumn-1]] = element.color // The minus one makes top left 0,0 to line up with array
         });
 
+        this.colors = new Set() // set that will add new colors seen in cells
         for (let r = 0; r < this.numRows; r++) { // TODO put no cells where ninjase is?
             this.cells[r] = []; 
             for (let c = 0; c < this.numColumns; c++) {
                 if ([r, c] in locationToColor){ 
-                    this.cells[r][c] = new Cell(r, c, locationToColor[[r, c]])
+                    this.cells[r][c] = new Cell(r, c, locationToColor[[r, c]]) 
+                    this.colors.add(locationToColor[[r, c]])
                 }
                 else { // if it is not it dictionary it is a white square
-                    this.cells[r][c] = new Cell(r, c, "grey") // TODO fix this 
+                    this.cells[r][c] = new Cell(r, c, "white") // TODO fix this 
                 }
             }
         }
@@ -150,6 +153,7 @@ export class Model {
     constructor(puzzle) { // TODO use a initialize function and put that within constructor?
         this.puzzle = puzzle // TODO makes more sense for puzzle to be an object passed in constructor that config passed?
         this.numMoves = 0
+        this.score = 0 
         this.victory = false
     }
 }
