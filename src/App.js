@@ -3,6 +3,7 @@ import { config_4x4, config_5x5, config_6x6 } from './model/Model.js'
 import { redrawCanvas} from './boundary/Boundary.js'
 import { Model, Puzzle } from './model/Model.js'
 import { moveNinjase, removeAllGroups, resetPuzzle } from './controller/Controller.js'
+import { solve } from './controller/Solver.js';
 
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
@@ -65,6 +66,12 @@ const victoryMessage= {
   top: 200,
 }
 
+const solvepuzzle= {
+  position: "absolute",
+  left: 1200,
+  top: 200,
+}
+
 
 
 
@@ -111,6 +118,18 @@ function App() {
     forceRedraw(redraw+1)
   }
 
+  const solvePuzzle = async e => { // TODO fix me later
+    let modelSolutions = solve(model)
+
+    let count = 0;    
+    let result = modelSolutions.next()
+    while (!result.done) {
+      setModel(result.value);
+      result = modelSolutions.next()
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1-second delay
+      count++;
+    } 
+  }
 
   return (
     <main>
@@ -126,6 +145,7 @@ function App() {
       <button style={downbutton} onClick={handleDownClick}>down</button>
       <button style={groupremovebutton} onClick={handleGroupRemove}>Remove groups</button>
       <button style={resetpuzzlebutton} onClick={handleResetClick}>Reset Puzzle</button>
+      <button style={solvepuzzle} onClick={solvePuzzle}>Solve Puzzle</button>
       {model.victory ? (<p style={victoryMessage}>Victory!</p>): null}
       <p style={movecount}> Move Count: {model.numMoves}</p>
       <p style={scorecount}> Score: {model.score}</p>

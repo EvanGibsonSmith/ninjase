@@ -19,7 +19,7 @@ export function resetPuzzle(model) { // TODO need to make a new model for each :
 }
 
 // TODO better way to put these helpers in?
-function validDirections(model) {// TODO doesn't work
+export function validDirections(model) {// TODO doesn't work
     let directions = []
     let ninja = model.puzzle.ninjase
     if (ninja.row!=0) {directions.push(0)} // TODO use ints for direction?
@@ -129,11 +129,15 @@ function inBlock(locations) { // TODO have to make sure within bounds. (Add some
 }
 
 export function removeAllGroups(model) {
+    let groupRemovedFlag = false
     let groupRemovalResults = []
     model.puzzle.colors.forEach(color => {groupRemovalResults.push(removeGroup(model, color))})
-    console.log(groupRemovalResults, groupRemovalResults.some(item=>{return item==true}))
-    if (groupRemovalResults.some(item=>{return item==true})) {++model.numMoves} // if any group was removed add to move counter
+    if (groupRemovalResults.some(item=>{return item==true})) {
+        ++model.numMoves
+        groupRemovedFlag = true // so we can see if group was removed for solver
+    } // if any group was removed add to move counter
     updateVictory(model) // check if we are now done TODO add potential game freeze here too?
+    return groupRemovedFlag
 }
 
 export function removeGroup(model, color) {
@@ -161,7 +165,7 @@ export function removeGroup(model, color) {
             puzzle.cells[colorCell[0]][colorCell[1]].color = "white" // TODO change to white later when border is added
             // if you want each group to be a move when removed, even if together put ++model.numMoves here instead of in removeAllGroups
         })
-        model.score += 4 // add to score if sucessful TOFO should this be handled here? I suppose so
+        model.score += 4 // add to score if sucessful TODO should this be handled here? I suppose so
         return true
     }
     return false

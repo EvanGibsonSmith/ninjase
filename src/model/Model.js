@@ -94,12 +94,20 @@ export class Cell {
         this.column = c
         this.color = color
     }
+
+    copy() {
+        return new Cell(this.row, this.column, this.color)
+    }
 }
 
 export class NinjaSe {
     constructor(r, c) {
         this.row = r
         this.column = c
+    }
+
+    copy() {
+        return new NinjaSe(this.row, this.column)
     }
 }
 
@@ -114,19 +122,16 @@ export class Puzzle {
         this.numColumns = parseInt(config.numColumns)
         this.numRows = parseInt(config.numRows)
 
-        // this is where you would create the nr x nc Cell objects that you need.
-        // OPTION 1: Create what looks like a 2D array this.cells[R][C]
         this.cells = []
         let init = config.initial
         let locationToColor = {} // will contain location to color for all non blank cells
 
         // TODO I do not like this but whatever, I suppose
-
         // getting into form that is easier to interate through and get color
         init.forEach(element => {
             let numericalColumn = element.column.toLowerCase().charCodeAt(0) - 96  // TODO this seems jank Gives 
             locationToColor[[element.row-1, numericalColumn-1]] = element.color // The minus one makes top left 0,0 to line up with array
-        });
+        })
 
         this.colors = new Set() // set that will add new colors seen in cells
         for (let r = 0; r < this.numRows; r++) { // TODO put no cells where ninjase is?
@@ -146,6 +151,22 @@ export class Puzzle {
         const ninjaseColumn = config.ninjaColumn.toLowerCase().charCodeAt(0) - 96
         this.ninjase = new NinjaSe(this.config.ninjaRow-1, ninjaseColumn-1) // -1 to get into zero indexed form (as done in locationToColor)
     }
+
+    copy() {
+        let copyPuzzle = new Puzzle(this.config)
+        // config, names, rows and columns are already in config
+        copyPuzzle.cells = []
+        this.cells.forEach(cellRow => {// deep copy the cells
+            let copyPuzzleRow = []
+            cellRow.forEach(cell => {
+                copyPuzzleRow.push(cell.copy())
+            })
+            copyPuzzle.cells.push(copyPuzzleRow)
+        })
+        copyPuzzle.ninjase = this.ninjase.copy()
+
+        return copyPuzzle
+    }
 }
 
 // Model knows the level (you need 3). Knows the Puzzle
@@ -155,5 +176,13 @@ export class Model {
         this.numMoves = 0
         this.score = 0 
         this.victory = false
+    }
+
+    copy() {
+        let modelCopy = new Model(this.puzzle.copy())
+        modelCopy.numMoves = this.numMoves
+        modelCopy.score = this.score
+        modelCopy.victory = this.victory
+        return modelCopy
     }
 }
