@@ -44,7 +44,7 @@ export function drawPuzzle(puzzle, canvasObj) {
             // HERE is where you draw everything about this cell that you know about...
             ctx.beginPath()
             ctx.fillStyle = "black"
-            ctx.fillRect(sq.x-OFFSET, sq.y-OFFSET, sq.size+OFFSET*2, sq.size+OFFSET*2) // fill border TODO bad practice putting OFFSET in here?
+            ctx.fillRect(sq.x-OFFSET, sq.y-OFFSET, sq.size+OFFSET*2, sq.size+OFFSET*2) // TODO putting border with OFFSET bad practice, probably not?
             ctx.fillStyle = cell.color
             ctx.fillRect(sq.x, sq.y, sq.size, sq.size) // fill actual color on top
             ctx.stroke()
@@ -53,6 +53,8 @@ export function drawPuzzle(puzzle, canvasObj) {
 
     // draw ninjase on top of these cells TODO this is probably fine right?
     let ninjasq = computeSquareNinjase(puzzle.ninjase)
+
+
     ctx.beginPath() // TODO make this a cute little ninja later
     ctx.fillStyle = "green" // green because obviously that's the ninja color
     ctx.fillRect(ninjasq.x, ninjasq.y, ninjasq.size, ninjasq.size)

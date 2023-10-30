@@ -7,26 +7,26 @@ import { moveNinjase, removeAllGroups, resetPuzzle } from './controller/Controll
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
-  left: 900,
+  left: 1000,
   top: 80,
 }
 
 const leftbutton = {
   position: "absolute",
-  left: 800,
-  top: 120,
+  left: 950,
+  top: 100,
 }
 
 const rightbutton = {
   position: "absolute",
-  left: 950,
-  top: 80,
+  left: 1050,
+  top: 100,
 }
 
 const downbutton = {
   position: "absolute",
-  left: 850,
-  top: 120,
+  left: 993,
+  top: 100,
 }
 
 const groupremovebutton= {
@@ -43,14 +43,25 @@ const resetpuzzlebutton= {
 
 const movecount= {
   position: "absolute",
-  left: 1000,
+  left: 700,
   top: 10,
 }
 
-const victoryMessage= {
-  id: "victoryMessage",
+const scorecount= {
   position: "absolute",
-  left: 200,
+  left: 900,
+  top: 10,
+}
+
+const configurationname= {
+  position: "absolute",
+  left: 10,
+  top: 500,
+}
+
+const victoryMessage= {
+  position: "absolute",
+  left: 1000,
   top: 200,
 }
 
@@ -111,12 +122,14 @@ function App() {
 
       <button style={upbutton} onClick={handleUpClick}>up</button> 
       <button style={leftbutton} onClick={handleLeftClick}>left</button>
-      <button style={rightbutton} onClick={handleDownClick}>down</button>
-      <button style={downbutton} onClick={handleRightClick}>right</button>
+      <button style={rightbutton} onClick={handleRightClick}>right</button>
+      <button style={downbutton} onClick={handleDownClick}>down</button>
       <button style={groupremovebutton} onClick={handleGroupRemove}>Remove groups</button>
       <button style={resetpuzzlebutton} onClick={handleResetClick}>Reset Puzzle</button>
-      <p style={victoryMessage} id='victoryMessage' disabled>VICTORY!</p>
-      <p style={movecount}>Move Count: {model.numMoves}</p>
+      {model.victory ? (<p style={victoryMessage}>Victory!</p>): null}
+      <p style={movecount}> Move Count: {model.numMoves}</p>
+      <p style={scorecount}> Score: {model.score}</p>
+      <p style={configurationname}>{model.puzzle.config.name}</p>
     </main>
   );
 }

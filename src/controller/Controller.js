@@ -24,15 +24,16 @@ function validDirections(model) {// TODO doesn't work
     let ninja = model.puzzle.ninjase
     if (ninja.row!=0) {directions.push(0)} // TODO use ints for direction?
     if (ninja.column!=0) {directions.push(1)}
-    if (ninja.row!=model.puzzle.numRows-1) {directions.push(2)}
-    if (ninja.column!=model.puzzle.numColumns-1) {directions.push(3)} // integers go clockwise 0, 1, 2, 3 around
+    if (ninja.row!=model.puzzle.numRows-2) {directions.push(2)} // minus 2 because we are dealing with top left of ninjase
+    if (ninja.column!=model.puzzle.numColumns-2) {directions.push(3)} // integers go clockwise 0, 1, 2, 3 around
 
     return directions
 }
 
 // TODO document loc is row or column increment is if we increment of decrement to cycle
-function pushRowCol(puzzle, r, c, isIncrement, isRow) { // nr and nc are start cell location to cycle around
+function pushRowCol(model, r, c, isIncrement, isRow) { // nr and nc are start cell location to cycle around
 
+    let puzzle = model.puzzle
     let currColor = puzzle.cells[r][c].color // starting push block, right below ninjase on left
     // make this color white because it will be under ninjase TODO good approach?
     puzzle.cells[r][c].color = 'white'
@@ -46,20 +47,21 @@ function pushRowCol(puzzle, r, c, isIncrement, isRow) { // nr and nc are start c
         let nextColor = puzzle.cells[r][c].color // get next color before overriding it with currColor 
         puzzle.cells[r][c].color=currColor
         currColor = nextColor
+        model.score += 1 // add this color pushed to score
         // TODO need to add edge case where it loops all the way around? However, blocks "under" ninjase should be blank so we SHOULD be ok
     }
 }
 
 function updateVictory(model) {
+    let victoryFlag = true;
     model.puzzle.cells.forEach(cellGroup => {
         cellGroup.forEach(singleCell => {
             if (singleCell.color!="white") {
-                model.victory=false // TODO not hard code background color?
-                return
+                victoryFlag=false
             }
         })
     })
-    model.victory=true
+    model.victory=victoryFlag 
 }
 
 export function moveNinjase(model, direction) {
@@ -72,9 +74,9 @@ export function moveNinjase(model, direction) {
     switch(direction) {
         case 0:
             startR-=1 // to start above ninja
-            pushRowCol(puzzle, startR, startC, false, true) // nr and nc are inital position to cycle around
+            pushRowCol(model, startR, startC, false, true) // nr and nc are inital position to cycle around
             ++startC // go to second column to push around'
-            pushRowCol(puzzle, startR, startC, false, true)
+            pushRowCol(model, startR, startC, false, true)
 
             // move ninjase itself
             puzzle.ninjase.row -= 1
@@ -82,9 +84,9 @@ export function moveNinjase(model, direction) {
 
         case 1:
             startC-=1 // to start left of ninja
-            pushRowCol(puzzle, startR, startC, false, false) // nr and nc are inital position to cycle around
+            pushRowCol(model, startR, startC, false, false) // nr and nc are inital position to cycle around
             ++startR // go to second row to push around'
-            pushRowCol(puzzle, startR, startC, false, false) 
+            pushRowCol(model, startR, startC, false, false) 
 
             // move ninjase itself
             puzzle.ninjase.column -= 1
@@ -92,9 +94,9 @@ export function moveNinjase(model, direction) {
             
         case 2:
             startR+=2 // to start below ninja
-            pushRowCol(puzzle, startR, startC, true, true) // nr and nc are inital position to cycle around
+            pushRowCol(model, startR, startC, true, true) // nr and nc are inital position to cycle around
             ++startC // go to second column to push around'
-            pushRowCol(puzzle, startR, startC, true, true)
+            pushRowCol(model, startR, startC, true, true)
 
             // move ninjase itself
             puzzle.ninjase.row += 1
@@ -102,9 +104,9 @@ export function moveNinjase(model, direction) {
 
         case 3:
             startC+=2 // to start right of ninja ninja
-            pushRowCol(puzzle, startR, startC, true, false) // nr and nc are inital position to cycle around
+            pushRowCol(model, startR, startC, true, false) // nr and nc are inital position to cycle around
             ++startR // go to second row to push around'
-            pushRowCol(puzzle, startR, startC, true, false)
+            pushRowCol(model, startR, startC, true, false)
 
             // move ninjase itself
             puzzle.ninjase.column += 1
@@ -113,11 +115,6 @@ export function moveNinjase(model, direction) {
 
         // TODO Should this logic be elsewhere? This function is a bit bloated
         ++model.numMoves
-        updateVictory(model)
-        if (model.victory=true) {
-            //freeze(model) TODO
-            document.getElementById("victoryMessage").disabled = false
-        }
 }
 
 
@@ -136,6 +133,7 @@ export function removeAllGroups(model) {
     model.puzzle.colors.forEach(color => {groupRemovalResults.push(removeGroup(model, color))})
     console.log(groupRemovalResults, groupRemovalResults.some(item=>{return item==true}))
     if (groupRemovalResults.some(item=>{return item==true})) {++model.numMoves} // if any group was removed add to move counter
+    updateVictory(model) // check if we are now done TODO add potential game freeze here too?
 }
 
 export function removeGroup(model, color) {
@@ -163,6 +161,7 @@ export function removeGroup(model, color) {
             puzzle.cells[colorCell[0]][colorCell[1]].color = "white" // TODO change to white later when border is added
             // if you want each group to be a move when removed, even if together put ++model.numMoves here instead of in removeAllGroups
         })
+        model.score += 4 // add to score if sucessful TOFO should this be handled here? I suppose so
         return true
     }
     return false
