@@ -1,6 +1,8 @@
 // redraw the Puzzle so I can see it
 
-import { Cell } from "../model/Model";
+import { Cell } from "../model/Cell";
+import ninjaseImage from '../resources/ninjase.svg'
+import robotNinjaseImage from'../resources/RobotNinjase.svg'
 
 // Scaling Constants for Canvas
 var BOXSIZE = 100;
@@ -24,7 +26,6 @@ export function computeSquareCell(cell) {
 export function computeSquareNinjase(ninjase) {
     return new Square(BOXSIZE*ninjase.column + OFFSET, BOXSIZE*ninjase.row + OFFSET, 2*BOXSIZE - 2*OFFSET)
 }
-
 
 
 /** Redraws the puzzle GUI portion of the model */
@@ -54,16 +55,28 @@ export function drawPuzzle(puzzle, canvasObj) {
     // draw ninjase on top of these cells TODO this is probably fine right?
     let ninjasq = computeSquareNinjase(puzzle.ninjase)
 
+    
+    // Create an Image object to load the SVG
+    const img = new Image()
+
+    // Set the source of the Image object to your SVG file
+
+    // Once the SVG is loaded, draw it on the canvas
+    img.src = ninjaseImage // TODO robot doesn't load fast might need to do it manually // TODO adding skins could be fun. and level designer.
+
+    img.onload = function () {
+        ctx.drawImage(img, ninjasq.x, ninjasq.y, ninjasq.size, ninjasq.size)
+    };
 
     ctx.beginPath() // TODO make this a cute little ninja later
-    ctx.fillStyle = "green" // green because obviously that's the ninja color
+    ctx.fillStyle = "lime" // green because obviously that's the ninja color
     ctx.fillRect(ninjasq.x, ninjasq.y, ninjasq.size, ninjasq.size)
     ctx.stroke()
+
 }
 
 /** Redraw entire canvas from model. */
 export function redrawCanvas(model, canvasObj) {
     // TODO add the other updating stuff?
-
     drawPuzzle(model.puzzle, canvasObj)
 }

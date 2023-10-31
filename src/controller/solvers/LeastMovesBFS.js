@@ -1,7 +1,8 @@
-import { removeAllGroups, moveNinjase, validDirections } from "./Controller"
+import { removeAllGroups } from "../RemoveAllGroups"
+import { moveNinjase, validDirections} from "../MoveNinjase"
 
+// helper for solve 
 function* retracePath(state, parents) {
-    console.log("BFS FOUND")
     let solution = []
     while (state!=null) {
         solution.push(state)
