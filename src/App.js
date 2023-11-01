@@ -123,6 +123,7 @@ export function App() {
     forceRedraw(redraw+1)
   }
 
+  // TODO tese two below are stupid they should take in the type of solve as a parameter or something then lambda can be made in button
   const solvePuzzleShortest = async e => { // this is just a boundary thing that needs he values from the app to set model TODO another way?
     let modelSolutions = solveShortest(model) // TODO need to have "solve mode" or something to keep track/change victory message, robot ninjase etc?
 
@@ -134,14 +135,15 @@ export function App() {
     } 
   }
 
+
   // TODO this can be imported
-  const solvePuzzle = async e => { // this is just a boundary thing that needs he values from the app to set model TODO another way?
+  const solvePuzzleArray = async e => { // this is just a boundary thing that needs he values from the app to set model TODO another way?
     let modelSolutions = solve(model) // TODO need to have "solve mode" or something to keep track/change victory message, robot ninjase etc?
 
-    let result = modelSolutions.next()
-    while (!result.done) {
-      setModel(result.value);
-      result = modelSolutions.next()
+    let result = modelSolutions.shift() // just like solvePuzzleShortest which uses an iterator. This uses an array TODO why? Can't I make the other return an iterator too and import
+    while (result!=undefined) {
+      setModel(result); // note no value because not an iterator
+      result = modelSolutions.shift() 
       await new Promise((resolve) => setTimeout(resolve, 1000)); // 1-second delay
     } 
   }
@@ -153,28 +155,28 @@ export function App() {
         ref={canvasRef}
         width  = "800" // TODO make these not hardcoded later? (layout.canvas.width and layour.canvas.height)
         height = "800" 
-        onKeyDown={handleKeyPresses} />
+        onKeyDown={e => {handleKeyPresses(model, e.key); forceRedraw(redraw+1)}} />
 
-      <button style={upbutton} onClick={e => {
-        handleKeyPresses(new KeyboardEvent('w'))
+      <button style={upbutton} onClick={e => { // TODO fix below and this with some DRY?
+        handleKeyPresses(model, 'w')
         forceRedraw(redraw+1)
       }}>
         up
       </button> 
       <button style={leftbutton} onClick={e => {
-        handleKeyPresses(new KeyboardEvent('a'))
+        handleKeyPresses(model, 'a')
         forceRedraw(redraw+1)
       }}>
         left
       </button> 
       <button style={downbutton} onClick={e => {
-        handleKeyPresses(new KeyboardEvent('s'))
+        handleKeyPresses(model, 's')
         forceRedraw(redraw+1)
       }}>
         down
       </button> 
       <button style={rightbutton} onClick={e => {
-        handleKeyPresses(new KeyboardEvent('d'))
+        handleKeyPresses(model, 'd')
         forceRedraw(redraw+1)
       }}>
         right
@@ -193,7 +195,7 @@ export function App() {
       </button>
 
       <button style={solvepuzzle} onClick={solvePuzzleShortest}>Solve Puzzle Shortest Path (Is very slow)</button>
-      <button style={solvepuzzle} onClick={solvePuzzle}>Solve Puzzle</button>
+      <button style={solvepuzzle} onClick={solvePuzzleArray}>Solve Puzzle</button>
 
 
       <button style={config4} onClick={() => chooseConfigurationUpdate(config_4x4)}>Config 4x4</button>

@@ -2,20 +2,20 @@ import { removeAllGroups } from "../RemoveAllGroups"
 import { moveNinjase, validDirections} from "../MoveNinjase"
 
 // helper for solve 
-function* retracePath(state, parents) {
+function getArray(state, parents) {
     let solution = []
     while (state!=null) {
         solution.push(state)
         state = parents.get(state)
     }
     
-    // reverse solution for iterable
-    solution.reverse();
-    for (const modelState of solution) {yield modelState}
-
+    // reverse solution for array
+    return solution.reverse();
 }
 
-export function solve(model) { // TODO note this implementation doesn't always remove a block if possible. Add the actual solution path with "from pointer"
+// does bfs to remove block, then keeps those moves and does another bfs from that new starting point
+// checkpoint in this case is if we find a group to remove
+function solve_helper(model) { // modified directly from leastMovesBFS
     let queue = []
     let parents = new Map()
     let initCopy = model.copy()
@@ -28,13 +28,14 @@ export function solve(model) { // TODO note this implementation doesn't always r
             continue
         }
         if (modelState.victory==true) {
-            return retracePath(modelState, parents)
+            return getArray(modelState, parents) // victory not needed as exit technically because group removal achieves victory
         }
 
         let groupModelCopy = modelState.copy()
-        if (removeAllGroups(groupModelCopy)==true) { // if removing a group was actually successful, it counts as a move
+        if (removeAllGroups(groupModelCopy)==true) { // if removing a group was actually successful end this bfs
             queue.push(groupModelCopy)
             parents.set(groupModelCopy, modelState)
+            return getArray(groupModelCopy, parents) // reached a group removal check point so will report back to outer solve
         }
 
         for (let direction=0; direction<4; ++direction) {
@@ -47,4 +48,16 @@ export function solve(model) { // TODO note this implementation doesn't always r
         }
     }
     return "No Path"
+}
+
+export function solve(model) {
+    let solution = []
+    let modelCopy = model.copy()
+    while (modelCopy.victory!=true) { // keep taking bfs to next group removal (checkpoint) until done
+        solution = [...solution, ...solve_helper(modelCopy)] // concatenate shortest path to next group
+        // now repeat with the end of that solution and move forward (the removed group)
+        modelCopy = solution[solution.length-1] // new checkpoint
+    }
+    console.log(solution)
+    return solution
 }
