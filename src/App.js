@@ -136,7 +136,7 @@ export function App() {
   }
 
 
-  // TODO this can be imported
+  // TODO this can be imported and should probably work with iterator too.
   const solvePuzzleArray = async e => { // this is just a boundary thing that needs he values from the app to set model TODO another way?
     let modelSolutions = solve(model) // TODO need to have "solve mode" or something to keep track/change victory message, robot ninjase etc?
 

@@ -54,10 +54,11 @@ export function solve(model) {
     let solution = []
     let modelCopy = model.copy()
     while (modelCopy.victory!=true) { // keep taking bfs to next group removal (checkpoint) until done
-        solution = [...solution, ...solve_helper(modelCopy)] // concatenate shortest path to next group
+        let nextModels = solve_helper(modelCopy)
+        nextModels.shift() // get rid of the first element of nextModels so that model isn't doubled in solution
+        solution = [...solution, ...nextModels] // concatenate shortest path to next group
         // now repeat with the end of that solution and move forward (the removed group)
         modelCopy = solution[solution.length-1] // new checkpoint
     }
-    console.log(solution)
     return solution
 }
