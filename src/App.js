@@ -10,31 +10,33 @@ import { chooseConfiguration } from './controller/ChooseConfiguration.js';
 import { solve as solveShortest} from './controller/solvers/LeastMovesBFS.js'
 import { solve } from './controller/solvers/ModifiedBFS.js'
 import { handleKeyPresses } from './boundary/EventListeners.js'
-import {timerFunction} from './controller/Timer.js'
+import './App.css';
+//import {timerFunction} from './controller/Timer.js' TODO should be imported but is in this file to redraw right now
 
 // you might try this quick and dirty way to position buttons where you want (and other elements)
+
 const upbutton = {
   position: "absolute",
-  left: 1000,
-  top: 80,
+  left: 550,
+  top: 50,
 }
 
 const leftbutton = {
   position: "absolute",
-  left: 950,
+  left: 500,
   top: 100,
 }
 
 const rightbutton = {
   position: "absolute",
-  left: 1050,
+  left: 600,
   top: 100,
 }
 
 const downbutton = {
   position: "absolute",
-  left: 993,
-  top: 100,
+  left: 550,
+  top: 150,
 }
 
 const groupremovebutton= {
@@ -116,7 +118,7 @@ export function App() {
   React.useEffect (() => {
 
     redrawCanvas(model, canvasRef.current)
-  }, [model, redraw])   // arguments that determine when to refresh
+  }, [model, redraw])   // arguments that determine when to refresh // TODO this is jank but is adding the timer good? Maybe it should be seperate object then
 
   function chooseConfigurationUpdate(configuration) {
     setModel(chooseConfiguration(configuration))
@@ -157,25 +159,26 @@ export function App() {
         height = "800" 
         onKeyDown={e => {handleKeyPresses(model, e.key); forceRedraw(redraw+1)}} />
 
-      <button style={upbutton} onClick={e => { // TODO fix below and this with some DRY?
+      <button className='upbutton' style={upbutton} onClick={e => { // TODO fix below and this with some DRY?
         handleKeyPresses(model, 'w')
+        // TODO should be here just to test
         forceRedraw(redraw+1)
       }}>
         up
       </button> 
-      <button style={leftbutton} onClick={e => {
+      <button className='leftbutton' style={leftbutton} onClick={e => {
         handleKeyPresses(model, 'a')
         forceRedraw(redraw+1)
       }}>
         left
       </button> 
-      <button style={downbutton} onClick={e => {
+      <button className='downbutton' style={downbutton} onClick={e => {
         handleKeyPresses(model, 's')
         forceRedraw(redraw+1)
       }}>
         down
       </button> 
-      <button style={rightbutton} onClick={e => {
+      <button className='rightbutton' style={rightbutton} onClick={e => {
         handleKeyPresses(model, 'd')
         forceRedraw(redraw+1)
       }}>
@@ -194,9 +197,9 @@ export function App() {
         Reset Puzzle
       </button>
 
+
       <button style={solvepuzzle} onClick={solvePuzzleShortest}>Solve Puzzle Shortest Path (Is very slow)</button>
       <button style={solvepuzzle} onClick={solvePuzzleArray}>Solve Puzzle</button>
-
 
       <button style={config4} onClick={() => chooseConfigurationUpdate(config_4x4)}>Config 4x4</button>
       <button style={config5} onClick={() => chooseConfigurationUpdate(config_5x5)}>Config 5x5</button>

@@ -1,3 +1,4 @@
+import { timerFunction } from "./Timer"
 
 // helpers for moveninjase
 export function validDirections(model) {// TODO doesn't work
@@ -35,6 +36,7 @@ function pushRowCol(model, r, c, isIncrement, isRow) { // nr and nc are start ce
 }
 
 export function moveNinjase(model, direction) {
+    //if (model.timer==0) {timerFunction(model)} TODO make this work // start timer if play hasn't begun and begin play
     if (model.victory==true) {return false}
     if (!validDirections(model).includes(direction)) {return false}
 

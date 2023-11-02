@@ -2,8 +2,62 @@
   text-align: center;
 }
 
-.upButton {
-  position: "absolute";
-  left: 1000;
-  top: 80;
+.upbutton {
+  position: relative;
+  top: 100;
+  left: 500;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-color: black;
+  border-radius: 8px;
+  background-color: #008CBA;
+  color:#1b1c1c;
+}
+
+.leftbutton {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-color: black;
+  border-radius: 8px;
+  background-color: #008CBA;
+  color:#1b1c1c;
+}
+
+.rightbutton {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-color: black;
+  border-radius: 8px;
+  background-color: #008CBA;
+  color:#1b1c1c;
+}
+
+.downbutton {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-color: black;
+  border-radius: 8px;
+  background-color: #008CBA;
+  color:#1b1c1c;
 }
