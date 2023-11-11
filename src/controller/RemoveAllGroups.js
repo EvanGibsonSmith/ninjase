@@ -1,3 +1,6 @@
+import { timerFunction } from "./Timer"
+
+// TODO2 Put finding a block and returning it's top right corner within the puzzle class
 function inBlock(locations) { // TODO have to make sure within bounds. (Add some error catch)
     if (locations.length!=4) {return false} // this occurs when a group has already been removed 
     let topLeft = locations[0] // if in a block this should be top left based on search TODO (bit tricky and jank?)
@@ -19,6 +22,7 @@ function updateVictory(model) {
     model.victory=victoryFlag 
 }
 
+// TODO2 put this within the puzzle class 
 export function removeAllGroups(model) {
     if (model.puzzle.victory==true) {return false}
 

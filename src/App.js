@@ -11,101 +11,99 @@ import { solve as solveShortest} from './controller/solvers/LeastMovesBFS.js'
 import { solve } from './controller/solvers/ModifiedBFS.js'
 import { handleKeyPresses } from './boundary/EventListeners.js'
 import './App.css';
-//import {timerFunction} from './controller/Timer.js' TODO should be imported but is in this file to redraw right now
+import {timerFunction} from './controller/Timer.js' 
 
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 
 const upbutton = {
   position: "absolute",
-  left: 550,
+  left: 700,
   top: 50,
 }
 
 const leftbutton = {
   position: "absolute",
-  left: 500,
+  left: 650,
   top: 100,
 }
 
 const rightbutton = {
   position: "absolute",
-  left: 600,
+  left: 750,
   top: 100,
 }
 
 const downbutton = {
   position: "absolute",
-  left: 550,
+  left: 700,
   top: 150,
 }
 
 const groupremovebutton= {
   position: "absolute",
-  left: 1000,
-  top: 10,
+  left: 750,
+  top: 5,
 }
 
 const resetpuzzlebutton= {
   position: "absolute",
-  left: 900,
-  top: 10,
+  left: 600,
+  top: 5,
 }
 
 const movecount= {
   position: "absolute",
-  left: 700,
-  top: 10,
+  left: 600,
+  top: 200,
 }
 
 const scorecount= {
   position: "absolute",
-  left: 900,
-  top: 10,
+  left: 750,
+  top: 200,
 }
 
 const configurationname= {
   position: "absolute",
-  left: 10,
-  top: 600,
+  left: 620,
+  top: 400,
 }
 
 const victoryMessage= {
   position: "absolute",
-  left: 1000,
-  top: 200,
+  left: 225,
+  top: 125,
 }
 
 const solvepuzzle= {
   position: "absolute",
-  left: 800,
-  top: 400,
+  left: 620,
+  top: 300,
 }
 
-
-const timer= {
+const solveshortestpuzzle= {
   position: "absolute",
-  left: 700,
-  top: 100,
+  left: 720,
+  top: 300,
 }
-
 
 const config4= {
   position: "absolute",
-  left: 700,
-  top: 500,
+  left: 100,
+  top: 620,
 }
 
 const config5= {
   position: "absolute",
-  left: 800,
-  top: 500,
+  left: 200,
+  top: 620,
 }
 
 
 const config6= {
   position: "absolute",
-  left: 900,
-  top: 500,
+  left: 300,
+  top: 620,
 }
 
 
@@ -155,13 +153,12 @@ export function App() {
       <canvas tabIndex="1"  
         className="App-canvas"
         ref={canvasRef}
-        width  = "800" // TODO make these not hardcoded later? (layout.canvas.width and layour.canvas.height)
-        height = "800" 
-        onKeyDown={e => {handleKeyPresses(model, e.key); forceRedraw(redraw+1)}} />
+        width  = "1000" // TODO make these not hardcoded later? (layout.canvas.width and layour.canvas.height)
+        height = "1000" 
+        onKeyDown={e => {handleKeyPresses(model, e.key); e.preventDefault(); forceRedraw(redraw+1)}} />
 
-      <button className='upbutton' style={upbutton} onClick={e => { // TODO fix below and this with some DRY?
+      <button className='upbutton' style={upbutton} onClick={e => {
         handleKeyPresses(model, 'w')
-        // TODO should be here just to test
         forceRedraw(redraw+1)
       }}>
         up
@@ -184,32 +181,31 @@ export function App() {
       }}>
         right
       </button> 
-      <button style={groupremovebutton} onClick={e => {
+      <button className='groupremove' style={groupremovebutton} onClick={e => {
           removeAllGroups(model)
-          forceRedraw(redraw+1) // TODO should this be attached to a key event?
+          forceRedraw(redraw+1)
         }}>
-        Remove groups
+        Remove Groups
       </button>
-      <button style={resetpuzzlebutton} onClick={e => {
+      <button className='resetpuzzle' style={resetpuzzlebutton} onClick={e => {
           resetPuzzle(model)
-          forceRedraw(redraw+1) // TODO should this be attached to a key event?
+          forceRedraw(redraw+1)
       }}>
         Reset Puzzle
       </button>
 
 
-      <button style={solvepuzzle} onClick={solvePuzzleShortest}>Solve Puzzle Shortest Path (Is very slow)</button>
+      <button style={solveshortestpuzzle} onClick={solvePuzzleShortest}>Solve Puzzle Shorestest</button>
       <button style={solvepuzzle} onClick={solvePuzzleArray}>Solve Puzzle</button>
 
       <button style={config4} onClick={() => chooseConfigurationUpdate(config_4x4)}>Config 4x4</button>
       <button style={config5} onClick={() => chooseConfigurationUpdate(config_5x5)}>Config 5x5</button>
       <button style={config6} onClick={() => chooseConfigurationUpdate(config_6x6)}>Config 6x6</button>
 
-      {model.victory ? (<p style={victoryMessage}>Victory!</p>): null}
-      <p style={movecount}> Move Count: {model.numMoves}</p>
-      <p style={scorecount}> Score: {model.score}</p>
+      {model.victory ? (<p className='victoryMessage' style={victoryMessage}>Victory! Your time was {model.timer/100}s</p>): null}
+      <p className='movecount' style={movecount}> Move Count: {model.numMoves}</p>
+      <p className='scorecount' style={scorecount}> Score: {model.score}</p>
       <p style={configurationname}>{model.puzzle.config.name}</p>
-      <p style={timer}>{model.timer}</p>
     </main>
   );
 }

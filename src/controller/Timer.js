@@ -10,5 +10,5 @@ export function timerFunction(model) { // from https://stackoverflow.com/questio
             clearInterval(timer);
         }
         // TODO need to redraw somehow from here
-    }, 1000);
+    }, 10);
   }

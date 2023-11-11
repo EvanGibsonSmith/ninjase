@@ -29,11 +29,18 @@ export function computeSquareNinjase(ninjase) {
 
 
 /** Redraws the puzzle GUI portion of the model */
-export function drawPuzzle(puzzle, canvasObj) {
+export function drawPuzzle(model, canvasObj) {
     const ctx = canvasObj.getContext('2d');
     ctx.clearRect( 0,0, canvasObj.width, canvasObj.height);  
+    if (model.victory) { // blur if needed (game has been won)
+        ctx.filter = "blur(20px)"
+    }
+    else {
+        ctx.filter = "blur(0px)" // in the case of needing to unblur
+    }
    
     // showing the outermost information
+    let puzzle = model.puzzle
     let nr = puzzle.numRows
     let nc = puzzle.numColumns
 
@@ -78,5 +85,6 @@ export function drawPuzzle(puzzle, canvasObj) {
 /** Redraw entire canvas from model. */
 export function redrawCanvas(model, canvasObj) {
     // TODO add the other updating stuff?
-    drawPuzzle(model.puzzle, canvasObj)
+    drawPuzzle(model, canvasObj)
+    // TODO make puzzle it's own window so it can be blurred?
 }

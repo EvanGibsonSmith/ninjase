@@ -5,7 +5,9 @@
 .upbutton {
   position: relative;
   top: 100;
+  bottom: 200;
   left: 500;
+  right: 600;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -60,4 +62,78 @@
   border-radius: 8px;
   background-color: #008CBA;
   color:#1b1c1c;
+}
+
+.resetpuzzle {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-color: black;
+  border-radius: 8px;
+  background-color: #861010;
+  color:#1b1c1c;
+}
+
+
+.groupremove {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-color: black;
+  border-radius: 8px;
+  background-color: #208610;
+  color:#1b1c1c;
+}
+
+.movecount {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 10px 25px;
+  text-align: right;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.scorecount {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 10px 25px;
+  text-align: right;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.configurationname {
+  position: absolute;
+  top: 150;
+  left: 550;
+  padding: 10px 25px;
+  text-align: right;
+  text-decoration: none;
+  display: inline-block;
+}
+
+
+
+.victoryMessage {
+  position: absolute;
+  padding: 10px 25px;
+  font: times;
+  font-weight: bolder;
+  font-size: 200;
+  text-align: right;
+  text-decoration: none;
+  display: inline-block;
 }

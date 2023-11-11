@@ -6,6 +6,7 @@ export class Model {
         this.score = 0 
         this.victory = false
         this.timer = 0
+        this.begun = false
     }
 
     copy() {
@@ -14,6 +15,7 @@ export class Model {
         modelCopy.score = this.score
         modelCopy.victory = this.victory
         modelCopy.timer = this.timer // not used in solved but included for completeness
+        modelCopy.begun = this.begun 
         return modelCopy
     }
 }
