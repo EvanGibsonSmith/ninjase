@@ -1,6 +1,7 @@
 import React from 'react';
 import { config_4x4, config_5x5, config_6x6 } from '../../resources/puzzle-config.js';
-import { redrawCanvas} from '../Boundary.js'
+import { Link } from 'react-router-dom';
+import { redrawCanvas} from '../PlayBoundary.js'
 import { Model } from '../../model/Model.js'
 import { Puzzle } from '../../model/Puzzle.js';
 import { moveNinjase } from '../../controller/MoveNinjase.js'; // TODO not used?
@@ -86,6 +87,12 @@ const solveshortestpuzzle= {
   top: 300,
 }
 
+const makepuzzle= {
+  position: "absolute",
+  left: 690,
+  top: 350,
+}
+
 const config4= {
   position: "absolute",
   left: 100,
@@ -154,7 +161,8 @@ export function Play() {
         ref={canvasRef}
         width  = "1000" // TODO make these not hardcoded later? (layout.canvas.width and layour.canvas.height)
         height = "1000" 
-        onKeyDown={e => {handleKeyPresses(model, e.key); e.preventDefault(); forceRedraw(redraw+1)}} />
+        // TODO make onKeyDown for whole windows and not just the canvas?
+        onKeyDown={e => {handleKeyPresses(model, e.key); e.preventDefault(); forceRedraw(redraw+1)}}/> 
 
       <button className='upbutton' style={upbutton} onClick={e => {
         handleKeyPresses(model, 'w')
@@ -194,8 +202,9 @@ export function Play() {
       </button>
 
 
-      <button style={solveshortestpuzzle} onClick={solvePuzzleShortest}>Solve Puzzle Shorestest</button>
+      <button style={solveshortestpuzzle} onClick={solvePuzzleShortest}>Solve Puzzle Shortest</button>
       <button style={solvepuzzle} onClick={solvePuzzleArray}>Solve Puzzle</button>
+      <Link to='/make' style={makepuzzle}>Make Puzzle</Link>
 
       <button style={config4} onClick={() => chooseConfigurationUpdate(config_4x4)}>Config 4x4</button>
       <button style={config5} onClick={() => chooseConfigurationUpdate(config_5x5)}>Config 5x5</button>

@@ -1,4 +1,3 @@
-// redraw the Puzzle so I can see it
 
 import { Cell } from "../model/Cell";
 import ninjaseImage from '../resources/ninjase.svg'
@@ -82,9 +81,4 @@ export function drawPuzzle(model, canvasObj) {
 
 }
 
-/** Redraw entire canvas from model. */
-export function redrawCanvas(model, canvasObj) {
-    // TODO add the other updating stuff?
-    drawPuzzle(model, canvasObj)
-    // TODO make puzzle it's own window so it can be blurred?
-}
+export default drawPuzzle

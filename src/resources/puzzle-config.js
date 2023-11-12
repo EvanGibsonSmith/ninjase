@@ -1,3 +1,12 @@
+export const blank_5x5 = {
+    "name": "Blank Puzzle",
+    "numRows" : "5",
+    "numColumns" : "5",
+    "ninjaRow" : "1",
+    "ninjaColumn": "A",
+    "initial" : []
+  }
+
 export const config_5x5 = {
     "name": "Configuration #1",
     "numRows" : "5",

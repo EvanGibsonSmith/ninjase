@@ -1,0 +1,24 @@
+.makepage {
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 40px;
+    border-color: black;
+    border-radius: 8px;
+    background-color: #9c8989;
+    color:#1b1c1c;
+  }
+
+  .goback {
+    position: sticky;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 40px;
+    border-color: black;
+    border-radius: 8px;
+    background-color: #1b9106;
+    color: #1b1c1c;
+  }
