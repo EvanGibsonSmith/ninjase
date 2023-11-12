@@ -14,6 +14,8 @@ around. Ninjase can push groups of blocks around the edges of the screen, but ni
 The game has some additional features, including key inputs, a BFS solver ("solve puzzle shortest"), modified BFS solver ("solve puzzle"), and timer. The WASD and arrow keys work along with the buttons on the GUI. If the key inputs are not working, click on the canvas of the puzzle, and then they should work. This is because the key listeners are bound to the canvas and not the window. The BFS solver simply uses BFS to find the fastest solution. The modified BFS solver uses "checkpoints" to get to a better state. This variation uses BFS to remove a block of squares. As soon as a block of square removal is found, that is a checkpoint, and no other possibilities are checked. So, the solution gurantees that it will find the fastest block removal for each block of 2x2 along the way to the solution, but may not find the overall optimal solution. Note neither of these work on the 6x6 because of the computational expense. The timer is simply displayed after the puzzle is complete. It runs as soon as a move is made, but does not run for the automatic solver that runs when using one of the solvers (BFS or modified BFS), and will display 0s in that case.
 
 # Bugs/Improvements
+When ninjase moves, especially quicky, the svg file is drawn twice on when he was and where he is now. This has no gameplay effects and is somewhat rare. If any action is performed, this momentary issue dissapears. 
+
 Timer has a bug when occasionally when playing the game it will "get stuck" on a specific time and always display that time for subsequent games.
 This does not always happen when starting another game.
 
