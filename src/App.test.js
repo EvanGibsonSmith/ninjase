@@ -1,5 +1,3 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
 import { Model } from './model/Model';
 
 test("Testing that I know how to test", () => {expect(6).toBe(6)}); // TODO testing that testing works
