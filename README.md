@@ -23,5 +23,9 @@ Timer could be improved by being disabled when you use a solver rather than disp
 
 The GUI for the puzzles is awkward, mostly because of the absolute spacing used. Because of this, on small puzzles, the buttons are very far out. Otherwise, on the large puzzles they would be within the puzzle. The border also has irregular spacing on the edges.
 
+# Notes
+For the constraints of the class, this was created using an Entity Boundary Controller structure and used javascript. The "singlepage" branch is an old version that has some bugs and doesn't
+use react routes to toggle between the pages.
+
 # Credits
 Thanks to Jessica Elmhurst for providing the ninjase svg file to the class
