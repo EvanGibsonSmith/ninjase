@@ -25,7 +25,7 @@ The GUI for the puzzles is awkward, mostly because of the absolute spacing used.
 
 # Notes
 For the constraints of the class, this was created using an Entity Boundary Controller structure and used javascript. The "singlepage" branch is an old version that has some bugs and doesn't
-use react routes to toggle between the pages. The make puzzle page is not completed at the moment, and I may come back around to it at some point in the future (outside of the class).
+use react routes to toggle between the pages. The make puzzle page is not completed at the moment, and I may come back around to it at some point in the future (outside of the class). Similarly, I could create a tutorial or instructions page that would explain the rules more clearly within the local web application.
 
 # Credits
 Thanks to Jessica Elmhurst for providing the ninjase svg file to the class
