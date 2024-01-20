@@ -7,7 +7,7 @@ You should be able to just use "npm install" if you are not just using the src f
 React is required, including Routes for the project to run.
 
 # Description
-This is a simple game created for Software Engineering CS3733 with Professor Hieneman. The game works by controlling a main character, "ninjase" who can push blocks
+This is a simple game created for Software Engineering CS3733 with Professor Heineman. The game works by controlling a main character, "ninjase" who can push blocks
 around. Ninjase can push groups of blocks around the edges of the screen, but ninjase cannot loop around the edges of the screen. After a set of colored blocks are in a 2x2 block, they can be removed. The "remove groups" button removes all 2x2 blocks that can removed. Each turn, a score is added based on the number of blocks ninjase pushed (note this is not just the blocks ninjase directly interacted with, but all the blocks those pushed in turn as well). After all blocks are removed, the game is over and a new puzzle configuration can be selected.
 
 # Additional Features
